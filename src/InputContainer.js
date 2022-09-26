@@ -1,4 +1,5 @@
 import styles from './InputContainer.module.css';
+import constants from './constants';
 
 /**
  * Component that will take the inputs for bill, tip and number of people
@@ -13,11 +14,12 @@ function Input({
   numberOfPeople,
   people,
 }) {
+  const { BILL, TIPLABEL, PEOPLE, TIPS } = constants;
   return (
     <div className={styles.form}>
       <div className={styles.labelGroup}>
         <label className={styles.label} htmlFor="bill">
-          Bill
+          {BILL}
         </label>
         <input
           type="number"
@@ -27,53 +29,21 @@ function Input({
         />
       </div>
       <div className={styles.tipSection}>
-        <label htmlFor="tip">Select Tip %</label>
+        <label htmlFor="tip">{TIPLABEL}</label>
         <div className={styles.tipAmountWrapper}>
-          <div className={styles.tipAmount}>
-            <button
-              className={styles.tip}
-              onClick={handleSelectedTip}
-              value="0.05"
-            >
-              5%
-            </button>
-          </div>
-          <div className={styles.tipAmount}>
-            <button
-              className={styles.tip}
-              onClick={handleSelectedTip}
-              value="0.1"
-            >
-              10%
-            </button>
-          </div>
-          <div className={styles.tipAmount}>
-            <button
-              className={styles.tip}
-              onClick={handleSelectedTip}
-              value="0.15"
-            >
-              15%
-            </button>
-          </div>
-          <div className={styles.tipAmount}>
-            <button
-              className={styles.tip}
-              onClick={handleSelectedTip}
-              value="0.25"
-            >
-              25%
-            </button>
-          </div>
-          <div className={styles.tipAmount}>
-            <button
-              className={styles.tip}
-              onClick={handleSelectedTip}
-              value="0.5"
-            >
-              50%
-            </button>
-          </div>
+          {TIPS.map((item) => {
+            return (
+              <div className={styles.tipAmount}>
+                <button
+                  className={styles.tip}
+                  onClick={handleSelectedTip}
+                  value={item / 100}
+                >
+                  {item}%
+                </button>
+              </div>
+            );
+          })}
           <div className={styles.tipAmount}>
             <input type="text" name="tip" onInput={handleCustomTip} />
           </div>
@@ -81,7 +51,7 @@ function Input({
       </div>
       <div className={styles.labelGroup}>
         <div className={styles.labelWrapper}>
-          <label htmlFor="people">Number of people</label>
+          <label htmlFor="people">{PEOPLE}</label>
         </div>
         <input
           type="number"
