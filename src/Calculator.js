@@ -7,19 +7,25 @@ import constants from './constants';
  * @param {Object} props
  * @returns JSX component for the function calculator
  */
-function Calculator({ bill, tip, people, resetInput }) {
-  // const { bill, people, tip } = state;
+function Calculator({ state, handleState }) {
+  const { bill, people, tip } = state;
   const { TIPAMOUNT, TOTAL, PERPERSON, RESET } = constants;
   const [billPerPerson, SetBillPerPerson] = useState(0);
   const [tipPerPerson, setTipPerPerson] = useState(0);
-
   /**
    * Function that will reset all the values to 0
    */
-  const resetValues = () => {
-    resetInput();
+  const resetValues = (e) => {
+    handleState('RESET', e.target.value);
     setTipPerPerson('0.00');
     SetBillPerPerson('0.00');
+  };
+
+  const calculateAmount = () => {
+    const tipValue = (tip * bill) / people;
+    const value = bill / people + tipValue;
+    SetBillPerPerson(value.toFixed(2));
+    setTipPerPerson(tipValue.toFixed(2));
   };
 
   useEffect(() => {
@@ -27,13 +33,7 @@ function Calculator({ bill, tip, people, resetInput }) {
       setTipPerPerson('0.00');
       SetBillPerPerson('0.00');
     } else {
-      const CalculateAmount = () => {
-        const tipValue = (tip * bill) / people;
-        let value = bill / people + tipValue;
-        SetBillPerPerson(value.toFixed(2));
-        setTipPerPerson(tipValue.toFixed(2));
-      };
-      CalculateAmount();
+      calculateAmount();
     }
   }, [bill, tip, people]);
 
@@ -60,7 +60,7 @@ function Calculator({ bill, tip, people, resetInput }) {
           </div>
         </div>
       </div>
-      <button className={styles.btn} onClick={resetValues}>
+      <button className={styles.btn} onClick={(e) => resetValues(e)}>
         {RESET}
       </button>
     </div>
