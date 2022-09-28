@@ -15,11 +15,11 @@ function App() {
       case 'BILL':
         return { ...state, bill: action.value };
       case 'TIP':
-        return { ...state, tip: action.value };
+        return { ...state, tip: (action.value)/100 };
       case 'PEOPLE':
         return { ...state, people: action.value };
       case 'RESET':
-        return { ...state, bill: 0, tip: 0, people: 0 };
+        return { ...state, ...initialState };
       default:
         return state;
     }

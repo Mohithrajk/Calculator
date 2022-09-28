@@ -32,8 +32,7 @@ function InputForm({ state, handleState }) {
             <input
               type="text"
               name="tip"
-              // onInput={}
-              value={parseInt(tip * 100)}
+              onChange={(e) => handleState('TIP', e.target.value)}
             />
           </div>
         </div>

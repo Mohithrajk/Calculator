@@ -21,18 +21,19 @@ function Calculator({ state, handleState }) {
     SetBillPerPerson('0.00');
   };
 
+  const calculateAmount = () => {
+    const tipValue = (tip * bill) / people;
+    const value = bill / people + tipValue;
+    SetBillPerPerson(value.toFixed(2));
+    setTipPerPerson(tipValue.toFixed(2));
+  };
+
   useEffect(() => {
     if (people <= 0) {
       setTipPerPerson('0.00');
       SetBillPerPerson('0.00');
     } else {
-      const CalculateAmount = () => {
-        const tipValue = (tip * bill) / people;
-        let value = bill / people + tipValue;
-        SetBillPerPerson(value.toFixed(2));
-        setTipPerPerson(tipValue.toFixed(2));
-      };
-      CalculateAmount();
+      calculateAmount();
     }
   }, [bill, tip, people]);
 
