@@ -1,20 +1,43 @@
 import styles from './InputContainer.module.css';
 import constants from './constants';
+import TipButton from './TipButton';
+// import React, { useState, useReducer } from 'react';
 
 /**
  * Component that will take the inputs for bill, tip and number of people
  * @param {Object} props
  * @returns the JSX component of the inputs
  */
-function Input({
+function InputForm({
+  bill,
+  people,
+  tip,
   handleBillAmount,
-  billAmount,
   handleSelectedTip,
   handleCustomTip,
   numberOfPeople,
-  people,
 }) {
-  const { BILL, TIPLABEL, PEOPLE, TIPS } = constants;
+  // const reducer = (state, action) => {
+  //   switch (action.type) {
+  //     case 'BILL':
+  //       return state.bill;
+  //       break;
+  //     case 'TIP':
+  //       return state.tip;
+  //       break;
+  //     default:
+  //       return state;
+  //   }
+  // };
+
+  // const initialState = {
+  //   bill: 0,
+  //   tip: 0,
+  //   people: 0,
+  // };
+
+  // const [state, dispatch] = useReducer(reducer, initialState);
+  const { BILL, TIPLABEL, PEOPLE } = constants;
   return (
     <div className={styles.form}>
       <div className={styles.labelGroup}>
@@ -24,28 +47,21 @@ function Input({
         <input
           type="number"
           id="bill"
-          onInput={handleBillAmount}
-          value={billAmount}
+          onChange={handleBillAmount}
+          value={bill}
         />
       </div>
       <div className={styles.tipSection}>
         <label htmlFor="tip">{TIPLABEL}</label>
         <div className={styles.tipAmountWrapper}>
-          {TIPS.map((item) => {
-            return (
-              <div className={styles.tipAmount}>
-                <button
-                  className={styles.tip}
-                  onClick={handleSelectedTip}
-                  value={item / 100}
-                >
-                  {item}%
-                </button>
-              </div>
-            );
-          })}
+          <TipButton handleSelectedTip={handleSelectedTip}></TipButton>
           <div className={styles.tipAmount}>
-            <input type="text" name="tip" onInput={handleCustomTip} />
+            <input
+              type="text"
+              name="tip"
+              onInput={handleCustomTip}
+              value={parseInt(tip * 100)}
+            />
           </div>
         </div>
       </div>
@@ -56,7 +72,7 @@ function Input({
         <input
           type="number"
           id="people"
-          onInput={numberOfPeople}
+          onChange={numberOfPeople}
           value={people}
         />
       </div>
@@ -64,4 +80,4 @@ function Input({
   );
 }
 
-export default Input;
+export default InputForm;

@@ -1,4 +1,4 @@
-import { useState , useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './Calculator.module.css';
 import constants from './constants';
 
@@ -7,45 +7,34 @@ import constants from './constants';
  * @param {Object} props
  * @returns JSX component for the function calculator
  */
-function Calculator({ people, bill, tip, setBill, setTip, setPeople }) {
+function Calculator({ bill, tip, people, resetInput }) {
+  // const { bill, people, tip } = state;
   const { TIPAMOUNT, TOTAL, PERPERSON, RESET } = constants;
   const [billPerPerson, SetBillPerPerson] = useState(0);
   const [tipPerPerson, setTipPerPerson] = useState(0);
-
-  const tipValue = (tip * bill) / people;
-  /**
-   * Function that will split the Tip amount by the number of peoples
-   */
-  const splitTip = () => {
-    const tipPerPerson = bill > 0 && people > 0 ? tipValue.toFixed(2) : '0.00';
-    setTipPerPerson(tipPerPerson);
-  };
-
-  /**
-   * Function that will split the amount including the tip amount
-   * @returns the total splitted bill
-   */
-  const splitAmount = () => {
-    let value = bill / people;
-    value += tipValue;
-    const billPerPerson = bill > 0 && people > 0 ? value.toFixed(2) : '0.00';
-    SetBillPerPerson(billPerPerson);
-  };
 
   /**
    * Function that will reset all the values to 0
    */
   const resetValues = () => {
-    setPeople(0);
-    setBill(0);
-    setTip(0);
+    resetInput();
     setTipPerPerson('0.00');
     SetBillPerPerson('0.00');
   };
 
   useEffect(() => {
-    splitTip();
-    splitAmount();
+    if (people <= 0) {
+      setTipPerPerson('0.00');
+      SetBillPerPerson('0.00');
+    } else {
+      const CalculateAmount = () => {
+        const tipValue = (tip * bill) / people;
+        let value = bill / people + tipValue;
+        SetBillPerPerson(value.toFixed(2));
+        setTipPerPerson(tipValue.toFixed(2));
+      };
+      CalculateAmount();
+    }
   }, [bill, tip, people]);
 
   return (

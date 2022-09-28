@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
 import './App.css';
+import React, { useState, useReducer } from 'react';
+
 import Calculator from './Calculator';
-import Input from './InputContainer';
+import InputForm from './InputContainer';
 import logo from './logo.svg';
+// import { handleBillAmount } from './actions';
 
 /**
  * Main app component which contains the input and the calculator components
@@ -13,10 +15,25 @@ function App() {
   const [tip, setTip] = useState(0);
   const [people, setPeople] = useState(0);
 
-  /**
-   * function that will set the bill using the input event value
-   * @param {event} e
-   */
+  // const reducer = (state, action) => {
+  //   switch (action.type) {
+  //     case 'BILL':
+  //       return state.bill;
+  //       break;
+  //     case 'TIP':
+  //       return state.tip;
+  //       break;
+  //     default:
+  //       return state;
+  //   }
+  // };
+
+  // const initialState = {
+  //   bill: 0,
+  //   tip: 0,
+  //   people: 0,
+  // };
+
   function handleBillAmount(e) {
     setBill(e.target.value);
   }
@@ -26,7 +43,7 @@ function App() {
    * @param {event} e
    */
   function handleSelectedTip(e) {
-    setTip(e.target.value);
+    setTip(e.target.value / 100);
   }
 
   /**
@@ -45,25 +62,30 @@ function App() {
     setPeople(e.target.value);
   }
 
+  const resetInput = () => {
+    setPeople(0);
+    setBill(0);
+    setTip(0);
+  };
+
   return (
     <div className="App">
       <img className="logo" src={logo} alt="" />
       <div className="container">
-        <Input
-          billAmount={bill}
+        <InputForm
+          bill={bill}
+          people={people}
+          tip={tip}
           handleBillAmount={handleBillAmount}
           handleSelectedTip={handleSelectedTip}
           handleCustomTip={handleCustomTip}
           numberOfPeople={numberOfPeople}
-          people={people}
-        ></Input>
+        ></InputForm>
         <Calculator
           bill={bill}
-          people={people}
           tip={tip}
-          setPeople={setPeople}
-          setTip={setTip}
-          setBill={setBill}
+          people={people}
+          resetInput={resetInput}
         ></Calculator>
       </div>
     </div>
