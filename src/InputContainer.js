@@ -8,35 +8,8 @@ import TipButton from './TipButton';
  * @param {Object} props
  * @returns the JSX component of the inputs
  */
-function InputForm({
-  bill,
-  people,
-  tip,
-  handleBillAmount,
-  handleSelectedTip,
-  handleCustomTip,
-  numberOfPeople,
-}) {
-  // const reducer = (state, action) => {
-  //   switch (action.type) {
-  //     case 'BILL':
-  //       return state.bill;
-  //       break;
-  //     case 'TIP':
-  //       return state.tip;
-  //       break;
-  //     default:
-  //       return state;
-  //   }
-  // };
-
-  // const initialState = {
-  //   bill: 0,
-  //   tip: 0,
-  //   people: 0,
-  // };
-
-  // const [state, dispatch] = useReducer(reducer, initialState);
+function InputForm({ state, handleState }) {
+  const { bill, tip, people } = state;
   const { BILL, TIPLABEL, PEOPLE } = constants;
   return (
     <div className={styles.form}>
@@ -47,19 +20,19 @@ function InputForm({
         <input
           type="number"
           id="bill"
-          onChange={handleBillAmount}
+          onChange={(e) => handleState('BILL', e.target.value)}
           value={bill}
         />
       </div>
       <div className={styles.tipSection}>
         <label htmlFor="tip">{TIPLABEL}</label>
         <div className={styles.tipAmountWrapper}>
-          <TipButton handleSelectedTip={handleSelectedTip}></TipButton>
+          <TipButton handleState={handleState}></TipButton>
           <div className={styles.tipAmount}>
             <input
               type="text"
               name="tip"
-              onInput={handleCustomTip}
+              // onInput={}
               value={parseInt(tip * 100)}
             />
           </div>
@@ -72,7 +45,7 @@ function InputForm({
         <input
           type="number"
           id="people"
-          onChange={numberOfPeople}
+          onChange={(e) => handleState('PEOPLE', e.target.value)}
           value={people}
         />
       </div>
