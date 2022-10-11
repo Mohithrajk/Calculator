@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { handleState } from './redux/actions';
 import styles from './Calculator.module.css';
 import constants from './constants';
 
@@ -15,6 +16,7 @@ function Calculator({ state, handleState }) {
   /**
    * Function that will reset all the values to 0
    */
+
   const resetValues = (e) => {
     handleState('RESET', e.target.value);
     setTipPerPerson('0.00');
@@ -66,5 +68,11 @@ function Calculator({ state, handleState }) {
     </div>
   );
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleState: () => dispatch(handleState),
+  };
+};
 
 export default Calculator;

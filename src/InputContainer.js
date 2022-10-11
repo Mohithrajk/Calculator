@@ -1,7 +1,6 @@
 import styles from './InputContainer.module.css';
 import constants from './constants';
 import TipButton from './TipButton';
-// import React, { useState, useReducer } from 'react';
 
 /**
  * Component that will take the inputs for bill, tip and number of people
@@ -9,13 +8,13 @@ import TipButton from './TipButton';
  * @returns the JSX component of the inputs
  */
 function InputForm({ state, handleState }) {
-  const { bill, tip, people } = state;
-  const { BILL, TIPLABEL, PEOPLE } = constants;
+  const { bill, people } = state;
+  const { BILLLABEL, TIPLABEL, PEOPLE } = constants;
   return (
     <div className={styles.form}>
       <div className={styles.labelGroup}>
         <label className={styles.label} htmlFor="bill">
-          {BILL}
+          {BILLLABEL}
         </label>
         <input
           type="number"
@@ -27,7 +26,7 @@ function InputForm({ state, handleState }) {
       <div className={styles.tipSection}>
         <label htmlFor="tip">{TIPLABEL}</label>
         <div className={styles.tipAmountWrapper}>
-          <TipButton handleState={handleState}></TipButton>
+          <TipButton handleState={handleState} />
           <div className={styles.tipAmount}>
             <input
               type="text"
