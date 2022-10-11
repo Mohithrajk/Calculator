@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { handleState } from './redux/actions';
-import styles from './Calculator.module.css';
 import constants from './constants';
+import styles from './Calculator.module.css';
 
 /**
  * Component that will be used to calculate and display the result
  * @param {Object} props
  * @returns JSX component for the function calculator
  */
-function Calculator({ state, handleState }) {
-  const { bill, people, tip } = state;
+function Calculator({ bill, tip, people, handleState }) {
   const { TIPAMOUNT, TOTAL, PERPERSON, RESET } = constants;
   const [billPerPerson, SetBillPerPerson] = useState(0);
   const [tipPerPerson, setTipPerPerson] = useState(0);
@@ -69,10 +69,14 @@ function Calculator({ state, handleState }) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleState: () => dispatch(handleState),
-  };
+const mapStateToProps = (state) => ({
+  bill: state.bill,
+  tip: state.tip,
+  people: state.people,
+});
+
+const mapDispatchToProps = {
+  handleState,
 };
 
-export default Calculator;
+export default connect(mapStateToProps, mapDispatchToProps)(Calculator);
